@@ -1,0 +1,409 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.autobackup.dao.NodeMapper">
+  <resultMap id="BaseResultMap" type="com.example.autobackup.entity.Node">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="pid" jdbcType="INTEGER" property="pid" />
+    <result column="oid" jdbcType="INTEGER" property="oid" />
+    <result column="alias" jdbcType="VARCHAR" property="alias" />
+    <result column="is_leaf" jdbcType="INTEGER" property="isLeaf" />
+    <result column="origin_name" jdbcType="VARCHAR" property="originName" />
+    <result column="union_code" jdbcType="VARCHAR" property="unionCode" />
+    <result column="download_count" jdbcType="INTEGER" property="downloadCount" />
+    <result column="hot" jdbcType="INTEGER" property="hot" />
+    <result column="created" jdbcType="TIMESTAMP" property="created" />
+    <result column="updated" jdbcType="TIMESTAMP" property="updated" />
+    <result column="is_deleted" jdbcType="INTEGER" property="isDeleted" />
+    <result column="last_modify" jdbcType="BIGINT" property="lastModify" />
+    <result column="origin_relative_path" jdbcType="VARCHAR" property="originRelativePath" />
+    <result column="target_relative_path" jdbcType="VARCHAR" property="targetRelativePath" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="zip_path" jdbcType="VARCHAR" property="zipPath" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, pid, oid, alias, is_leaf, origin_name, union_code, download_count, hot, created, 
+    updated, is_deleted, last_modify, origin_relative_path, target_relative_path, status, 
+    zip_path
+  </sql>
+  <select id="selectByExample" parameterType="com.example.autobackup.entity.NodeExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from node
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from node
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from node
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.example.autobackup.entity.NodeExample">
+    delete from node
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.example.autobackup.entity.Node">
+    insert into node (id, pid, oid, 
+      alias, is_leaf, origin_name, 
+      union_code, download_count, hot, 
+      created, updated, is_deleted, 
+      last_modify, origin_relative_path, target_relative_path, 
+      status, zip_path)
+    values (#{id,jdbcType=VARCHAR}, #{pid,jdbcType=INTEGER}, #{oid,jdbcType=INTEGER}, 
+      #{alias,jdbcType=VARCHAR}, #{isLeaf,jdbcType=INTEGER}, #{originName,jdbcType=VARCHAR}, 
+      #{unionCode,jdbcType=VARCHAR}, #{downloadCount,jdbcType=INTEGER}, #{hot,jdbcType=INTEGER}, 
+      #{created,jdbcType=TIMESTAMP}, #{updated,jdbcType=TIMESTAMP}, #{isDeleted,jdbcType=INTEGER}, 
+      #{lastModify,jdbcType=BIGINT}, #{originRelativePath,jdbcType=VARCHAR}, #{targetRelativePath,jdbcType=VARCHAR}, 
+      #{status,jdbcType=INTEGER}, #{zipPath,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.example.autobackup.entity.Node">
+    insert into node
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="pid != null">
+        pid,
+      </if>
+      <if test="oid != null">
+        oid,
+      </if>
+      <if test="alias != null">
+        alias,
+      </if>
+      <if test="isLeaf != null">
+        is_leaf,
+      </if>
+      <if test="originName != null">
+        origin_name,
+      </if>
+      <if test="unionCode != null">
+        union_code,
+      </if>
+      <if test="downloadCount != null">
+        download_count,
+      </if>
+      <if test="hot != null">
+        hot,
+      </if>
+      <if test="created != null">
+        created,
+      </if>
+      <if test="updated != null">
+        updated,
+      </if>
+      <if test="isDeleted != null">
+        is_deleted,
+      </if>
+      <if test="lastModify != null">
+        last_modify,
+      </if>
+      <if test="originRelativePath != null">
+        origin_relative_path,
+      </if>
+      <if test="targetRelativePath != null">
+        target_relative_path,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="zipPath != null">
+        zip_path,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="pid != null">
+        #{pid,jdbcType=INTEGER},
+      </if>
+      <if test="oid != null">
+        #{oid,jdbcType=INTEGER},
+      </if>
+      <if test="alias != null">
+        #{alias,jdbcType=VARCHAR},
+      </if>
+      <if test="isLeaf != null">
+        #{isLeaf,jdbcType=INTEGER},
+      </if>
+      <if test="originName != null">
+        #{originName,jdbcType=VARCHAR},
+      </if>
+      <if test="unionCode != null">
+        #{unionCode,jdbcType=VARCHAR},
+      </if>
+      <if test="downloadCount != null">
+        #{downloadCount,jdbcType=INTEGER},
+      </if>
+      <if test="hot != null">
+        #{hot,jdbcType=INTEGER},
+      </if>
+      <if test="created != null">
+        #{created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updated != null">
+        #{updated,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDeleted != null">
+        #{isDeleted,jdbcType=INTEGER},
+      </if>
+      <if test="lastModify != null">
+        #{lastModify,jdbcType=BIGINT},
+      </if>
+      <if test="originRelativePath != null">
+        #{originRelativePath,jdbcType=VARCHAR},
+      </if>
+      <if test="targetRelativePath != null">
+        #{targetRelativePath,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="zipPath != null">
+        #{zipPath,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.example.autobackup.entity.NodeExample" resultType="java.lang.Long">
+    select count(*) from node
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update node
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pid != null">
+        pid = #{record.pid,jdbcType=INTEGER},
+      </if>
+      <if test="record.oid != null">
+        oid = #{record.oid,jdbcType=INTEGER},
+      </if>
+      <if test="record.alias != null">
+        alias = #{record.alias,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isLeaf != null">
+        is_leaf = #{record.isLeaf,jdbcType=INTEGER},
+      </if>
+      <if test="record.originName != null">
+        origin_name = #{record.originName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.unionCode != null">
+        union_code = #{record.unionCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.downloadCount != null">
+        download_count = #{record.downloadCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.hot != null">
+        hot = #{record.hot,jdbcType=INTEGER},
+      </if>
+      <if test="record.created != null">
+        created = #{record.created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updated != null">
+        updated = #{record.updated,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.isDeleted != null">
+        is_deleted = #{record.isDeleted,jdbcType=INTEGER},
+      </if>
+      <if test="record.lastModify != null">
+        last_modify = #{record.lastModify,jdbcType=BIGINT},
+      </if>
+      <if test="record.originRelativePath != null">
+        origin_relative_path = #{record.originRelativePath,jdbcType=VARCHAR},
+      </if>
+      <if test="record.targetRelativePath != null">
+        target_relative_path = #{record.targetRelativePath,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=INTEGER},
+      </if>
+      <if test="record.zipPath != null">
+        zip_path = #{record.zipPath,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update node
+    set id = #{record.id,jdbcType=VARCHAR},
+      pid = #{record.pid,jdbcType=INTEGER},
+      oid = #{record.oid,jdbcType=INTEGER},
+      alias = #{record.alias,jdbcType=VARCHAR},
+      is_leaf = #{record.isLeaf,jdbcType=INTEGER},
+      origin_name = #{record.originName,jdbcType=VARCHAR},
+      union_code = #{record.unionCode,jdbcType=VARCHAR},
+      download_count = #{record.downloadCount,jdbcType=INTEGER},
+      hot = #{record.hot,jdbcType=INTEGER},
+      created = #{record.created,jdbcType=TIMESTAMP},
+      updated = #{record.updated,jdbcType=TIMESTAMP},
+      is_deleted = #{record.isDeleted,jdbcType=INTEGER},
+      last_modify = #{record.lastModify,jdbcType=BIGINT},
+      origin_relative_path = #{record.originRelativePath,jdbcType=VARCHAR},
+      target_relative_path = #{record.targetRelativePath,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=INTEGER},
+      zip_path = #{record.zipPath,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.autobackup.entity.Node">
+    update node
+    <set>
+      <if test="pid != null">
+        pid = #{pid,jdbcType=INTEGER},
+      </if>
+      <if test="oid != null">
+        oid = #{oid,jdbcType=INTEGER},
+      </if>
+      <if test="alias != null">
+        alias = #{alias,jdbcType=VARCHAR},
+      </if>
+      <if test="isLeaf != null">
+        is_leaf = #{isLeaf,jdbcType=INTEGER},
+      </if>
+      <if test="originName != null">
+        origin_name = #{originName,jdbcType=VARCHAR},
+      </if>
+      <if test="unionCode != null">
+        union_code = #{unionCode,jdbcType=VARCHAR},
+      </if>
+      <if test="downloadCount != null">
+        download_count = #{downloadCount,jdbcType=INTEGER},
+      </if>
+      <if test="hot != null">
+        hot = #{hot,jdbcType=INTEGER},
+      </if>
+      <if test="created != null">
+        created = #{created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updated != null">
+        updated = #{updated,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDeleted != null">
+        is_deleted = #{isDeleted,jdbcType=INTEGER},
+      </if>
+      <if test="lastModify != null">
+        last_modify = #{lastModify,jdbcType=BIGINT},
+      </if>
+      <if test="originRelativePath != null">
+        origin_relative_path = #{originRelativePath,jdbcType=VARCHAR},
+      </if>
+      <if test="targetRelativePath != null">
+        target_relative_path = #{targetRelativePath,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="zipPath != null">
+        zip_path = #{zipPath,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.autobackup.entity.Node">
+    update node
+    set pid = #{pid,jdbcType=INTEGER},
+      oid = #{oid,jdbcType=INTEGER},
+      alias = #{alias,jdbcType=VARCHAR},
+      is_leaf = #{isLeaf,jdbcType=INTEGER},
+      origin_name = #{originName,jdbcType=VARCHAR},
+      union_code = #{unionCode,jdbcType=VARCHAR},
+      download_count = #{downloadCount,jdbcType=INTEGER},
+      hot = #{hot,jdbcType=INTEGER},
+      created = #{created,jdbcType=TIMESTAMP},
+      updated = #{updated,jdbcType=TIMESTAMP},
+      is_deleted = #{isDeleted,jdbcType=INTEGER},
+      last_modify = #{lastModify,jdbcType=BIGINT},
+      origin_relative_path = #{originRelativePath,jdbcType=VARCHAR},
+      target_relative_path = #{targetRelativePath,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      zip_path = #{zipPath,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <delete id="deleteNotIn" parameterType="com.example.autobackup.entity.Tree">
+    delete from node
+    where origin_relative_path not in
+    <foreach close=")" collection="list" index="index" item="item" open="(" separator=",">#{item.path}</foreach>
+  </delete>
+
+
+</mapper>
